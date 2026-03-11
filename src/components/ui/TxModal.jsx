@@ -1,9 +1,19 @@
-export default function TxModal(){
+export default function TxModal({show,message}){
+
+if(!show) return null
 
 return(
-<div className="txmodal">
-<p>Transaction pending confirmation...</p>
+
+<div className="tx-modal">
+
+<div className="tx-box">
+
+⏳ {message || "Waiting for confirmation..."}
+
 </div>
+
+</div>
+
 )
 
 }
