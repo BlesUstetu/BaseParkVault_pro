@@ -15,7 +15,7 @@ export default function App(){
 // STATE WALLET
 const [account,setAccount]=useState(null)
 
-// STATE NAVIGATION  ← tambahkan disini
+// STATE NAVIGATION
 const [page,setPage]=useState("dashboard")
 
 return(
@@ -24,21 +24,26 @@ return(
 
 <Header account={account} setAccount={setAccount}/>
 
+{/* PAGE RENDER */}
+
+{page==="dashboard" && (
+<>
 <Analytics/>
-
 <PortfolioChart/>
+</>
+)}
 
-<VaultPanel/>
+{page==="vault" && <VaultPanel/>}
 
-<Leaderboard/>
+{page==="history" && <History/>}
 
-<History/>
+{page==="leaderboard" && <Leaderboard/>}
 
 <TxModal/>
 
 <Toast/>
 
-<BottomNav/>
+<BottomNav page={page} setPage={setPage}/>
 
 </div>
 
