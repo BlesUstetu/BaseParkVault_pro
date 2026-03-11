@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import Header from "./components/Header"
 import Analytics from "./components/dashboard/Analytics"
 import PortfolioChart from "./components/charts/PortfolioChart"
@@ -10,11 +12,17 @@ import BottomNav from "./components/navigation/BottomNav"
 
 export default function App(){
 
+// STATE WALLET
+const [account,setAccount]=useState(null)
+
+// STATE NAVIGATION  ← tambahkan disini
+const [page,setPage]=useState("dashboard")
+
 return(
 
 <div className="app">
 
-<Header/>
+<Header account={account} setAccount={setAccount}/>
 
 <Analytics/>
 
