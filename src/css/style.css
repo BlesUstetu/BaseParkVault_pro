@@ -168,6 +168,10 @@ border:none;
 color:white;
 }
 
+.bottom-nav button.active{
+color:#00f0ff;
+}
+
 .txmodal{
 position:fixed;
 top:20px;
