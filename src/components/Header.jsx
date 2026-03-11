@@ -1,47 +1,83 @@
-import { useState,useEffect } from "react"
-import { connectWallet,getAccount } from "../web3/wallet"
+import { useEffect, useState } from "react"
 
-export default function Header(){
+export default function Header({ account, connectWallet, disconnectWallet }) {
 
-const [account,setAccount]=useState(null)
-const [menu,setMenu]=useState(false)
+const [network, setNetwork] = useState("")
 
-useEffect(()=>{
-const acc=getAccount()
-if(acc) setAccount(acc)
-},[])
+useEffect(() => {
 
-async function connect(){
-const acc=await connectWallet()
-setAccount(acc)
+const detectNetwork = async () => {
+
+if(!window.ethereum) return
+
+const chainId = await window.ethereum.request({
+method: "eth_chainId"
+})
+
+if(chainId === "0x2105"){
+setNetwork("Base")
 }
+else if(chainId === "0xaa36a7"){
+setNetwork("Sepolia")
+}
+else{
+setNetwork("Unknown")
+}
+
+}
+
+detectNetwork()
+
+}, [])
 
 return(
 
 <header className="header">
 
-<h1 className="logo">BaseParkVault</h1>
+<div className="header-left">
 
-{account?(
-<div className="walletBox">
+<h1 className="logo">
+BaseParkVault
+</h1>
 
-<button onClick={()=>setMenu(!menu)} className="walletBtn">
+{network && (
+<span className="network">
+{network}
+</span>
+)}
+
+</div>
+
+<div className="header-right">
+
+{account ? (
+
+<button
+className="wallet-btn"
+onClick={disconnectWallet}
+>
+
 {account.slice(0,6)}...{account.slice(-4)}
+
 </button>
 
-{menu&&(
-<div className="walletMenu">
-<button onClick={()=>navigator.clipboard.writeText(account)}>Copy Address</button>
-<a target="_blank" href={"https://basescan.org/address/"+account}>Explorer</a>
-</div>
+) : (
+
+<button
+className="wallet-btn connect"
+onClick={connectWallet}
+>
+
+Connect Wallet
+
+</button>
+
 )}
 
 </div>
-):(
-<button className="connectBtn" onClick={connect}>Connect Wallet</button>
-)}
 
 </header>
 
 )
+
 }
