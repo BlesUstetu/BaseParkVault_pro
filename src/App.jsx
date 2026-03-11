@@ -12,30 +12,63 @@ import BottomNav from "./components/navigation/BottomNav"
 
 export default function App(){
 
-// STATE WALLET
-const [account,setAccount]=useState(null)
+// WALLET STATE
+const [account,setAccount] = useState(null)
 
-// STATE NAVIGATION
-const [page,setPage]=useState("dashboard")
+// NAVIGATION STATE
+const [page,setPage] = useState("dashboard")
+
+// CONNECT WALLET
+const connectWallet = async () => {
+
+if(!window.ethereum){
+alert("Metamask not found")
+return
+}
+
+const accounts = await window.ethereum.request({
+method:"eth_requestAccounts"
+})
+
+setAccount(accounts[0])
+
+}
+
+// DISCONNECT WALLET
+const disconnectWallet = () => {
+setAccount(null)
+}
 
 return(
 
 <div className="app">
 
-<Header account={account} setAccount={setAccount}/>
+<Header
+account={account}
+connectWallet={connectWallet}
+disconnectWallet={disconnectWallet}
+/>
 
-{/* PAGE RENDER */}
+{/* DASHBOARD */}
 
 {page==="dashboard" && (
+
 <>
 <Analytics/>
 <PortfolioChart/>
 </>
+
 )}
+
+{/* VAULT */}
 
 {page==="vault" && <VaultPanel/>}
 
+{/* HISTORY */}
+
 {page==="history" && <History/>}
+
+{/* LEADERBOARD */}
 
 {page==="leaderboard" && <Leaderboard/>}
 
@@ -43,7 +76,10 @@ return(
 
 <Toast/>
 
-<BottomNav page={page} setPage={setPage}/>
+<BottomNav
+page={page}
+setPage={setPage}
+/>
 
 </div>
 
