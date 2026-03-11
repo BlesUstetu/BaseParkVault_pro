@@ -1,20 +1,39 @@
 export default function BottomNav({page,setPage}){
 
 return(
+
 <div className="bottom-nav">
-<button onClick={()=>setPage("dashboard")}>
+
+<button
+className={page==="dashboard"?"active":""}
+onClick={()=>setPage("dashboard")}
+>
 Dashboard
 </button>
-<button onClick={()=>setPage("vault")}>
+
+<button
+className={page==="vault"?"active":""}
+onClick={()=>setPage("vault")}
+>
 Vault
 </button>
-<button onClick={()=>setPage("history")}>
+
+<button
+className={page==="history"?"active":""}
+onClick={()=>setPage("history")}
+>
 History
 </button>
-<button onClick={()=>setPage("leaderboard")}>
+
+<button
+className={page==="leaderboard"?"active":""}
+onClick={()=>setPage("leaderboard")}
+>
 Leaderboard
 </button>
+
 </div>
+
 )
 
 }
